@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gpx version="1.1" creator="GPS Visualizer https://www.gpsvisualizer.com/" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<wpt lat="30.2685007" lon="-97.7362579">
+  <name>Stubbs BBQ, Red River Street, Austin, TX</name>
+</wpt>
+<wpt lat="30.2593595" lon="-97.7463419">
+  <name>YETI Austin Flagship, 220 S Congress Ave, Austin, TX 78704</name>
+</wpt>
+<trk>
+  <name>Stubbs BBQ, Red River Street, Austin, TX - YETI Austin Flagship, 220 S Congress Ave, Austin, TX 78704</name>
+  <trkseg>
+    <trkpt lat="30.26855" lon="-97.73643"></trkpt>
+    <trkpt lat="30.26836" lon="-97.7365"></trkpt>
+    <trkpt lat="30.26789" lon="-97.73667"></trkpt>
+    <trkpt lat="30.26743" lon="-97.73683"></trkpt>
+    <trkpt lat="30.26698" lon="-97.737"></trkpt>
+    <trkpt lat="30.26696" lon="-97.73701"></trkpt>
+    <trkpt lat="30.26648" lon="-97.73719"></trkpt>
+    <trkpt lat="30.26648" lon="-97.73719"></trkpt>
+    <trkpt lat="30.26667" lon="-97.73785"></trkpt>
+    <trkpt lat="30.26678" lon="-97.73825"></trkpt>
+    <trkpt lat="30.26707" lon="-97.73934"></trkpt>
+    <trkpt lat="30.26715" lon="-97.73962"></trkpt>
+    <trkpt lat="30.26733" lon="-97.74021"></trkpt>
+    <trkpt lat="30.26739" lon="-97.74041"></trkpt>
+    <trkpt lat="30.26746" lon="-97.74069"></trkpt>
+    <trkpt lat="30.26752" lon="-97.74089"></trkpt>
+    <trkpt lat="30.26768" lon="-97.74148"></trkpt>
+    <trkpt lat="30.26779" lon="-97.74185"></trkpt>
+    <trkpt lat="30.26781" lon="-97.74192"></trkpt>
+    <trkpt lat="30.26786" lon="-97.74212"></trkpt>
+    <trkpt lat="30.26791" lon="-97.74227"></trkpt>
+    <trkpt lat="30.26801" lon="-97.74261"></trkpt>
+    <trkpt lat="30.26807" lon="-97.74281"></trkpt>
+    <trkpt lat="30.26807" lon="-97.74281"></trkpt>
+    <trkpt lat="30.26712" lon="-97.74313"></trkpt>
+    <trkpt lat="30.26696" lon="-97.74319"></trkpt>
+    <trkpt lat="30.26676" lon="-97.74327"></trkpt>
+    <trkpt lat="30.26647" lon="-97.74339"></trkpt>
+    <trkpt lat="30.2662" lon="-97.74349"></trkpt>
+    <trkpt lat="30.26579" lon="-97.74364"></trkpt>
+    <trkpt lat="30.26551" lon="-97.74375"></trkpt>
+    <trkpt lat="30.26526" lon="-97.74385"></trkpt>
+    <trkpt lat="30.26508" lon="-97.74392"></trkpt>
+    <trkpt lat="30.26495" lon="-97.74396"></trkpt>
+    <trkpt lat="30.26432" lon="-97.7442"></trkpt>
+    <trkpt lat="30.26388" lon="-97.74436"></trkpt>
+    <trkpt lat="30.26338" lon="-97.74455"></trkpt>
+    <trkpt lat="30.26326" lon="-97.74458"></trkpt>
+    <trkpt lat="30.26326" lon="-97.74459"></trkpt>
+    <trkpt lat="30.26309" lon="-97.74465"></trkpt>
+    <trkpt lat="30.26306" lon="-97.74466"></trkpt>
+    <trkpt lat="30.26284" lon="-97.74474"></trkpt>
+    <trkpt lat="30.26281" lon="-97.74476"></trkpt>
+    <trkpt lat="30.26271" lon="-97.7448"></trkpt>
+    <trkpt lat="30.26263" lon="-97.74484"></trkpt>
+    <trkpt lat="30.26254" lon="-97.74487"></trkpt>
+    <trkpt lat="30.26234" lon="-97.74495"></trkpt>
+    <trkpt lat="30.26217" lon="-97.74501"></trkpt>
+    <trkpt lat="30.2619" lon="-97.74511"></trkpt>
+    <trkpt lat="30.26182" lon="-97.74514"></trkpt>
+    <trkpt lat="30.26181" lon="-97.74515"></trkpt>
+    <trkpt lat="30.26084" lon="-97.74552"></trkpt>
+    <trkpt lat="30.2608" lon="-97.74554"></trkpt>
+    <trkpt lat="30.26075" lon="-97.74556"></trkpt>
+    <trkpt lat="30.26074" lon="-97.74556"></trkpt>
+    <trkpt lat="30.26064" lon="-97.74559"></trkpt>
+    <trkpt lat="30.2603" lon="-97.74572"></trkpt>
+    <trkpt lat="30.26013" lon="-97.74578"></trkpt>
+    <trkpt lat="30.25996" lon="-97.74584"></trkpt>
+    <trkpt lat="30.25979" lon="-97.7459"></trkpt>
+    <trkpt lat="30.25968" lon="-97.74594"></trkpt>
+    <trkpt lat="30.25929" lon="-97.74609"></trkpt>
+    <trkpt lat="30.25892" lon="-97.74622"></trkpt>
+    <trkpt lat="30.25892" lon="-97.74622"></trkpt>
+    <trkpt lat="30.25896" lon="-97.7464"></trkpt>
+    <trkpt lat="30.25902" lon="-97.74666"></trkpt>
+    <trkpt lat="30.25903" lon="-97.74671"></trkpt>
+    <trkpt lat="30.25903" lon="-97.74675"></trkpt>
+    <trkpt lat="30.25903" lon="-97.74679"></trkpt>
+    <trkpt lat="30.25903" lon="-97.74684"></trkpt>
+    <trkpt lat="30.25903" lon="-97.74688"></trkpt>
+    <trkpt lat="30.25902" lon="-97.74698"></trkpt>
+    <trkpt lat="30.25902" lon="-97.74698"></trkpt>
+    <trkpt lat="30.25908" lon="-97.74685"></trkpt>
+    <trkpt lat="30.25909" lon="-97.74683"></trkpt>
+    <trkpt lat="30.25909" lon="-97.74681"></trkpt>
+    <trkpt lat="30.25917" lon="-97.74652"></trkpt>
+    <trkpt lat="30.25922" lon="-97.74631"></trkpt>
+  </trkseg>
+</trk>
+</gpx>
