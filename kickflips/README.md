@@ -17,7 +17,7 @@ You will need:
 
 ### Clone this repo
 ```
-git clone git@github.com:kgorman/kickflip.git
+git clone git@github.com:Eventador/eventador_examples.git
 ```
 
 ### Create an environment file
