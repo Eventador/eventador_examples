@@ -18,6 +18,7 @@ You will need:
 ### Clone this repo
 ```
 git clone git@github.com:Eventador/eventador_examples.git
+cd eventador_examples/kickflips
 ```
 
 ### Create an environment file

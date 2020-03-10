@@ -70,10 +70,10 @@ def generate_card(type):
     # main body
     t = type.lower()
     if t not in card_types:
-        print "Unknown type: '%s'" % type
-        print "Please pick one of these supported types: %s" % card_types
+        print("Unknown type: {}".format(type))
+        print("Please pick one of these supported types: {}".format(card_types))
         return
 
     initial, rem = prefill(t)
-    so_far = initial + [randint(1,9) for x in xrange(rem - 1)]
+    so_far = initial + [randint(1,9) for x in range(rem - 1)]
     return "".join(map(str,finalize(so_far)))

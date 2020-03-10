@@ -15,18 +15,21 @@ You will need:
 
 ## Setup
 
+Open a terminal window and run the following commands from a convenient directory on your machine:
+
 ### Clone this repo
 ```
 git clone git@github.com:Eventador/eventador_examples.git
+cd eventador_examples/fraud
 ```
 
 ### Create an environment file
-In the same directory create an .env file with your login credentials. Name it fraud.env with the following variables defined. This example uses CC, if you are using a different service or your own then specify creds that match it.
+In the same directory create an .env file with your login credentials and some configuration information. This example uses Confluent Cloud, if you are using a different Kafka service or your own then specify credentials that match your specific configuration. Replace the variables surrounded by `[ ]` with your own values, including the brackets.
 ```
-BOOTSTRAP_SERVERS=yourCCkafkaserver:9092
-SASL_USERNAME=<get from confluent cloud>
-SASL_PASSWORD=<get from confluent cloud>
-KAFKA_TOPIC=payment_auths
+echo "BOOTSTRAP_SERVERS=[yourCCkafkaserver:9092]" >> fraud.env
+echo "SASL_USERNAME=[get from confluent cloud]" >> fraud.env
+echo "SASL_PASSWORD=[get from confluent cloud]" >> fraud.env
+echo "KAFKA_TOPIC=payment_auths" >> fraud.env
 ```
 
 ### Populate Kafka with data
