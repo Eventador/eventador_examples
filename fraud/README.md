@@ -29,7 +29,7 @@ In the same directory create an .env file with your login credentials and some c
 echo "BOOTSTRAP_SERVERS=[yourCCkafkaserver:9092]" >> fraud.env
 echo "SASL_USERNAME=[get from confluent cloud]" >> fraud.env
 echo "SASL_PASSWORD=[get from confluent cloud]" >> fraud.env
-echo "KAFKA_TOPIC=payment_auths" >> fraud.env
+echo "KAFKA_TOPIC=paymentauths" >> fraud.env
 ```
 
 ### Populate Kafka with data
@@ -41,11 +41,51 @@ docker run -d --env-file fraud.env fraud
 ### Setup Eventador
 Follow the steps from the Eventador Getting Started Guide.
 
-- Create a [new environment](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#1-create-a-cloud-environment). Name it `kickflips`
-- Create a [datasource](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#2-create-a-data-source). Name it `kickflips`. Connect it to any Kafka cluster you want to use for this purpose. The example code assumes CC.
-- Create a new [virtual table source](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#3-create-virtual-table-as-a-source), use [this JSON schema definition](/kickflips.json).
+- Create a [new environment](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#1-create-a-cloud-environment). Name it `payment_auths`
+- Create a [datasource](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#2-create-a-data-source). Name it `payment_auths`. Connect it to the Kafka cluster you configured above.
+- Create a new [virtual table source](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#3-create-virtual-table-as-a-source), use this JSON schema definition:
+
+```json
+{
+  "name": "paymentauths",
+  "type": "record",
+  "namespace": "com.eventador.payments",
+  "fields": [
+    {
+      "name": "amount",
+      "type": "int"
+    },
+    {
+      "name": "userid",
+      "type": "int"
+    },
+    {
+      "name": "card",
+      "type": "string"
+    }
+  ]
+}
+```
 
 - Create the following [Virtual Table Sinks](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#4-create-virtual-table-as-a-sink):
 ```
 fraud_output
+```
+
+## Run Continuous Queries
+
+Follow [these steps](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#5-running-sql) to run Continuous SQL on Eventador.
+
+Create a job with the following SQL, and select `fraud_output` as the virtual table sink.
+
+```SQL
+--production fraud job, identify cards that have move than 2 auths in a 10 minute window
+select card as fraudulent_card,
+count(*) as auth_count,
+max(amount) as max_amount,
+tumble_end(eventTimestamp, interval '10' minute) as ts_end
+from paymentauths
+where amount > 10
+group by card, tumble(eventTimestamp, interval '10' minute)
+having count(*) > 2
 ```
