@@ -67,16 +67,11 @@ Follow the steps from the Eventador Getting Started Guide.
 }
 ```
 
-- Create the following [Virtual Table Sinks](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#4-create-virtual-table-as-a-sink):
-```
-fraud_output
-```
-
 ## Run Continuous Queries
 
 Follow [these steps](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#5-running-sql) to run Continuous SQL on Eventador.
 
-Create a job with the following SQL, and select `fraud_output` as the virtual table sink.
+Create a job with the following SQL, and select `results in browser` as the virtual table sink. Select `Execute`.
 
 ```SQL
 --production fraud job, identify cards that have move than 2 auths in a 10 minute window
@@ -89,3 +84,56 @@ where amount > 10
 group by card, tumble(eventTimestamp, interval '10' minute)
 having count(*) > 2
 ```
+
+Fraudulent activity is shown as the results arrive. It should look something like this:
+
+
+
+
+## Taking it further
+
+
+
+
+### Input transforms
+
+You can utilize an input transform to read Kafka header information. You will need to add two pieces of information to the above example:
+
+1. Input Transform.
+
+In the `source virtual table` configuration, select `Transformations`, and paste the following code into the editor box:
+```javascript
+var out = JSON.parse(record);
+var header = JSON.parse(message.headers);
+var interested_keys = ['DC'];
+out['topic'] = message.topic;
+out['partition'] = message.partition;
+
+
+Object.keys(header).forEach(function(key) {
+    if (interested_keys.indexOf(key) > -1){
+        out[key] = header[key];
+    }
+});
+
+JSON.stringify(out);
+```
+
+2. Edit the schema to have new fields to hold the data - select the `Schema` tab and **Add** the following to your schema definition in the editor box:
+
+```JSON
+    {
+      "name": "topic",
+      "type": "string"
+    },
+    {
+      "name": "partition",
+      "type": "string"
+    },
+    {
+      "name": "DC",
+      "type": "string"
+    }
+```
+
+Restart the job, you will now get Kafka header information in the results.
