@@ -75,25 +75,21 @@ Create a job with the following SQL, and select `results in browser` as the virt
 
 ```SQL
 --production fraud job, identify cards that have move than 2 auths in a 10 minute window
-select card as fraudulent_card,
-count(*) as auth_count,
+select card,
+count(*) as thecount,
 max(amount) as max_amount,
-tumble_end(eventTimestamp, interval '10' minute) as ts_end
+tumble_end(eventTimestamp, interval '20' second) as ts_end
 from paymentauths
-where amount > 10
-group by card, tumble(eventTimestamp, interval '10' minute)
-having count(*) > 2
+group by card, tumble(eventTimestamp, interval '20' second)
+having count(*) > 2;
 ```
 
-Fraudulent activity is shown as the results arrive. It should look something like this:
+Because the continuous SQL query aggregates and maintains state over a 20 second period, the query will not return results until the window is complete. When it does, the fraudulent activity is shown as the results arrive. It should look something like this:
 
-
+![img](img/ssb_snap.png)
 
 
 ## Taking it further
-
-
-
 
 ### Input transforms
 
