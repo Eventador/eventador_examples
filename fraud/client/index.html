@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Eventador Example</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+
+const url = "https://snapper-37c3d731.ae43652a8a6928ec.devssb.evstreams.net/api/v1/query/2509/auths";
+
+// take a simple JSON doc and return a geoJSON compatible data structure
+function to_geojson(d){
+      features = [];
+      for (var i in d) {
+          var feature = {
+              "type": "Feature",
+              "geometry": {
+                  "type": "Point",
+                  "coordinates": [parseFloat(d[i].lon), parseFloat(d[i].lat), 0]
+              },
+              "properties": {
+                  "name": d[i].card
+              }
+          }
+          features.push(feature);
+    }
+    doc = {
+        "type": "FeatureCollection",
+        "features": features
+    }
+    return doc;
+}
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2Vubnlnb3JtYW4iLCJhIjoiY2lrOXhjaDRwMGZrN3ZvbTQ4YWhqaGx3NSJ9._aq1BwXXk838aloAemHDig';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/navigation-guidance-night-v4',
+    center: [-96, 37.8],
+    zoom: 3
+});
+
+map.on('load', function() {
+    window.setInterval(function() {
+        console.log("fetching data..")
+        d3.json(url)
+          .then(function(data) {
+              try {
+                  map.removeLayer('mylayer');
+                  map.removeSource('testme');
+              } catch(err) {
+                  console.log(err);
+              }
+
+              map.addSource('testme', {
+                  'type': 'geojson',
+                  'data': to_geojson(data)
+              });
+              map.addLayer({
+                  'id': 'mylayer',
+                  'type': 'heatmap',
+                  'source': 'testme'
+              });
+         });
+     }, 2000);
+});
+</script>
+
+</body>
+</html>

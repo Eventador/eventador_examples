@@ -10,6 +10,7 @@ import time
 import sys
 
 from card_generator import generate_card
+from geopoint import create_geopoint
 from confluent_kafka import Consumer, KafkaError, Producer
 from confluent_kafka.admin import AdminClient, NewTopic
 
@@ -17,6 +18,14 @@ KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "fraud")
 KAFKA_BROKERS = os.getenv("BOOTSTRAP_SERVERS", "localhost:9092")
 SASL_USERNAME = os.getenv("SASL_USERNAME", "Nologin")
 SASL_PASSWORD = os.getenv("SASL_PASSWORD", "NoPass")
+
+CITIES = [
+    {"lat": 30.2672, "lon": -97.7430608, "city": "austin"},
+    {"lat": 34.0522, "lon": -118.2437, "city": "los angeles"},
+    {"lat": 39.7392, "lon": -104.9903, "city": "denver"},
+    {"lat": 32.7767, "lon": -96.7970, "city": "dallas"}
+]
+
 
 def make_topic(t, c):
     a = AdminClient(c)
@@ -29,13 +38,9 @@ def make_topic(t, c):
         except Exception as e:
             print("Failed to create topic, it may exist already {}: {}".format(topic, e))
 
-def get_lat():
-    """ return random lat """
-    return round(uniform(-180,180), 7)
-
-def get_lon():
-    """ return random lon """
-    return round(uniform(-90, 90), 7)
+def get_latlon():
+    geo = random.choice(CITIES)
+    return create_geopoint(geo['lat'], geo['lon'])
 
 def purchase():
     """Return a random amount in cents """
@@ -47,14 +52,14 @@ def get_user():
 
 def make_fraud():
     """ return a fraudulent transaction """
-    lat = get_lat()
-    lon = get_lon()
+    latlon = get_latlon()
     user = get_user()
-    amount = 94204
+    amount = purchase()
     card = generate_card("visa16")
     payload = {"userid": user,
                "amount": amount,
-	           "location": {"lat": lat, "lon": lon},
+	           "lat": latlon[0],
+	           "lon": latlon[1],
                "card": card
               }
     return payload
@@ -101,10 +106,12 @@ def main():
                 except Exception as ex:
                     print("unable to produce {}".format(ex))
         else:
+            latlon = get_latlon()
             payload = {
                 "userid": get_user(),
                 "amount": purchase(),
-    		    "location":{"lat": get_lat(), "lon": get_lon()},
+    	        "lat": latlon[0],
+		        "lon": latlon[1],
                 "card": generate_card("visa16")
             }
 
@@ -115,7 +122,6 @@ def main():
         print(payload)
         producer.flush()
         i += 1
-        time.sleep(1)
 
 if __name__== "__main__":
   main()
