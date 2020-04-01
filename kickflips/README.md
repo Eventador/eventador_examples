@@ -28,6 +28,7 @@ BOOTSTRAP_SERVERS=yourCCkafkaserver:9092
 SASL_USERNAME=<get from confluent cloud>
 SASL_PASSWORD=<get from confluent cloud>
 KAFKA_TOPIC=kickflips
+BOARDID=01
 ```
 
 ### Populate Kafka with data
