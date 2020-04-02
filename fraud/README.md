@@ -6,6 +6,7 @@ The demo consists of:
 - A generator to create hypothetical data
 - SQL examples for processing the stream
 - Configuration parameters for Eventador Platform
+- A single page application to display the data
 
 You will need:
 
@@ -39,54 +40,70 @@ docker run -d --env-file fraud.env fraud
 ```
 
 ### Setup Eventador
-Follow the steps from the Eventador Getting Started Guide.
+Follow these steps from the Eventador Getting Started Guide.
 
 - Create a [new environment](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#1-create-a-cloud-environment). Name it `payment_auths`
 - Create a [datasource](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#2-create-a-data-source). Name it `payment_auths`. Connect it to the Kafka cluster you configured above.
-- Create a new [virtual table source](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#3-create-virtual-table-as-a-source), use this JSON schema definition:
+- Create a new [virtual table source](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#3-create-virtual-table-as-a-source). Select `Detect Schema` to create a schema from a sample of the data.
 
-```json
-{
-  "name": "paymentauths",
-  "type": "record",
-  "namespace": "com.eventador.payments",
-  "fields": [
-    {
-      "name": "amount",
-      "type": "int"
-    },
-    {
-      "name": "userid",
-      "type": "int"
-    },
-    {
-      "name": "card",
-      "type": "string"
-    }
-  ]
-}
-```
+## Create a processing job using Continuous SQL
 
-## Run Continuous Queries
+Follow these steps to run a Continuous SQL job on Eventador.
 
-Follow [these steps](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#5-running-sql) to run Continuous SQL on Eventador.
-
-Create a job with the following SQL, and select `results in browser` as the virtual table sink. Select `Execute`.
+- Select `SQLStreamBuilder` from the left hand menu.
+- Select `results in browser` as the virtual table sink.
+- Paste the below SQL into the SQL editor:
 
 ```SQL
---production fraud job, identify cards that have move than 2 auths in a 10 minute window
-select card,
-count(*) as thecount,
-max(amount) as max_amount,
-tumble_end(eventTimestamp, interval '20' second) as ts_end
-from paymentauths
-group by card, tumble(eventTimestamp, interval '20' second)
-having count(*) > 2;
+SELECT *
+FROM authorizations
+MATCH_RECOGNIZE(
+  PARTITION BY card
+  ORDER BY eventTimestamp
+  MEASURES
+      A.amount AS start_amount,
+      A.eventTimestamp AS first_timestamp,
+      A.lat AS lat,
+      A.lon AS lon,
+      B.amount AS next_amount,
+      B.eventTimestamp AS next_timestamp,
+      C.amount AS finish_amount,
+      C.eventTimestamp AS finish_timestamp
+  ONE ROW PER MATCH
+  AFTER MATCH SKIP PAST LAST ROW
+  PATTERN (A B C)
+  WITHIN INTERVAL '1' MINUTE
+  DEFINE
+    A AS A.amount IS NOT NULL
+      AND CAST(A.amount AS integer) >= 0
+      AND CAST(A.amount AS integer) <= 1000,
+    B AS B.amount IS NOT NULL
+      AND CAST(B.amount AS integer) >= 1001
+      AND CAST(B.amount AS integer) <= 2000,
+    C AS C.amount IS NOT NULL
+      AND CAST(C.amount AS integer) > 2001)
 ```
 
-Because the continuous SQL query aggregates and maintains state over a 20 second period, the query will not return results until the window is complete. When it does, the fraudulent activity is shown as the results arrive. It should look something like this:
+- Select the `Materialized View` tab, select `card` as the primary key.
+- Select `Add Query`, add `auths` as the URL pattern, select `Select All` for the columns, and `Save Changes`.
+- Copy the `URL Pattern` by right clicking on it and copying the link address. You will use this in the single page application.
+- Select the `SQL` tab, and `Execute` button.
+
+
+Because the continuous SQL query aggregates and maintains state over a period of time, the query will not return results until the window is complete. When it does, the fraudulent activity is shown as the results arrive. It should look something like this:
 
 ![img](img/ssb_snap.png)
+
+
+## A single page application
+
+Follow these steps to run a single page application that shows a heatmap of fraudulent transactions.
+
+- Edit `client/index.html` and change the constant for URL to the URL you copied above.
+- Open `client/index.html` in your browser. It should look something like below:
+
+![img2](img/heatmap.png)
+
 
 
 ## Taking it further

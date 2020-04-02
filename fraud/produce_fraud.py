@@ -50,12 +50,9 @@ def get_user():
     """ return a random user """
     return random.randrange(0, 999)
 
-def make_fraud():
+def make_fraud(seed, card, user, latlon):
     """ return a fraudulent transaction """
-    latlon = get_latlon()
-    user = get_user()
-    amount = purchase()
-    card = generate_card("visa16")
+    amount = (seed+1)*1000
     payload = {"userid": user,
                "amount": amount,
 	           "lat": latlon[0],
@@ -91,7 +88,7 @@ def main():
     make_topic(KAFKA_TOPIC, conf)
 
     payload = {}
-    fraud_trigger = 5
+    fraud_trigger = 15
     i = 1
 
     while True:
@@ -99,8 +96,12 @@ def main():
 
         if i % fraud_trigger == 0:
             print("making fraud")
-            payload = make_fraud()
+            card = generate_card("visa16")
+            user = get_user()
+            latlon = get_latlon()
             for r in range(3):
+                payload = make_fraud(r, card, user, latlon)
+                print(payload)
                 try:
                     producer.produce(KAFKA_TOPIC, json.dumps(payload).rstrip().encode('utf8'), callback=delivery_report)
                 except Exception as ex:
