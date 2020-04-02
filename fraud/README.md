@@ -1,6 +1,8 @@
 # Fraud
 A hypothetical payment authorization flow to demonstrate the Eventador Platform and the use of Continuous SQL to process streaming data.
 
+Authorizations are streamed through Kafka, then they are continuously processed via SQL to find authorizations that are climbing in value over a short time window (our hypothetical fraud). The results are read via REST into a single page javascript application and a heatmap of fraud is generated.
+
 The demo consists of:
 
 - A generator to create hypothetical data
@@ -27,7 +29,7 @@ cd eventador_examples/fraud
 ### Create an environment file
 In the same directory create an .env file with your login credentials and some configuration information. This example uses Confluent Cloud, if you are using a different Kafka service or your own then specify credentials that match your specific configuration. Replace the variables surrounded by `[ ]` with your own values, including the brackets.
 ```
-echo "BOOTSTRAP_SERVERS=[yourCCkafkaserver:9092]" >> fraud.env
+echo "BOOTSTRAP_SERVERS=[yourCCkafkaserver:9092]" > fraud.env
 echo "SASL_USERNAME=[get from confluent cloud]" >> fraud.env
 echo "SASL_PASSWORD=[get from confluent cloud]" >> fraud.env
 echo "KAFKA_TOPIC=paymentauths" >> fraud.env
@@ -84,7 +86,7 @@ MATCH_RECOGNIZE(
       AND CAST(C.amount AS integer) > 2001)
 ```
 
-- Select the `Materialized View` tab, select `card` as the primary key.
+- Select the `Materialized View` tab, select `card` as the primary key. Change `retention` to 30 seconds.
 - Select `Add Query`, add `auths` as the URL pattern, select `Select All` for the columns, and `Save Changes`.
 - Copy the `URL Pattern` by right clicking on it and copying the link address. You will use this in the single page application.
 - Select the `SQL` tab, and `Execute` button.
