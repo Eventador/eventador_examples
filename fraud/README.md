@@ -97,11 +97,8 @@ Because the continuous SQL query aggregates and maintains state over a period of
 ![img](img/ssb_snap.png)
 
 
-## A single page application
+## Visualizing the results
 
-Follow these steps to run a single page application that shows a heatmap of fraudulent transactions.
-
-- Edit `client/index.html` and change the constant for URL to the URL you copied above.
-- Open `client/index.html` in your browser. It should look something like below:
+You can visualize the results using any mechanism that can get data from a RESTful API. [Here is an example](https://observablehq.com/@kgorman/untitled) that utilizes an ObservableHQ notebook, D3.js and MapBox GL JS to create a simple heatmap of fraud by location.
 
 ![img2](img/heatmap.png)
