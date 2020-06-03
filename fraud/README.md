@@ -8,7 +8,7 @@ The demo consists of:
 - A generator to create hypothetical data
 - SQL examples for processing the stream
 - Configuration parameters for Eventador Platform
-- A single page application to display the data
+- A simple application to display the data
 
 You will need:
 
