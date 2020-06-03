@@ -18,16 +18,22 @@ You will need:
 
 ## Setup
 
-Open a terminal window and run the following commands from a convenient directory on your machine:
+### Setup Eventador
+Follow these steps from the Eventador Getting Started Guide.
+
+- Create a [new environment](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#1-create-a-cloud-environment). Name it `payment_auths`
+- Create a new [virtual table source](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#3-create-virtual-table-as-a-source). Select `Detect Schema` to create a schema from a sample of the data. Name it `authorizations` and use the Kafka topic named `authorizations`.
 
 ### Clone this repo
+Open a terminal window and run the following commands from a convenient directory on your machine:
+
 ```
 git clone git@github.com:Eventador/eventador_examples.git
 cd eventador_examples/fraud
 ```
 
 ### Create an environment file
-In the same directory create an .env file with your login credentials and some configuration information. This example uses Eventador Kafka.
+In the same terminal window and directory, create an .env file with your login credentials and some configuration information. This example uses Eventador Kafka.
 ```
 echo "TOPIC=authorizations" > fraud.env
 echo "URL=[get base url from eventador console]" >> fraud.env
@@ -40,16 +46,9 @@ docker build . -t fraud
 docker run -d --env-file fraud.env fraud
 ```
 
-### Setup Eventador
-Follow these steps from the Eventador Getting Started Guide.
-
-- Create a [new environment](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#1-create-a-cloud-environment). Name it `payment_auths`
-- Create a [datasource](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#2-create-a-data-source). Name it `payment_auths`. Connect it to the Kafka cluster you configured above.
-- Create a new [virtual table source](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#3-create-virtual-table-as-a-source). Select `Detect Schema` to create a schema from a sample of the data. Name it `authorizations`.
-
 ## Create a processing job using Continuous SQL
 
-Follow these steps to run a Continuous SQL job on Eventador.
+Go to the [Eventador Console](https://eventador.cloud/streambuilder_list), and follow these steps to run a Continuous SQL job on Eventador.
 
 - Select `SQLStreamBuilder` from the left hand menu.
 - Select `results in browser` as the virtual table sink.
@@ -89,7 +88,6 @@ MATCH_RECOGNIZE(
 - Select `Add Query`, add `auths` as the URL pattern, select `Select All` for the columns, and `Save Changes`.
 - Copy the `URL Pattern` by right clicking on it and copying the link address. You will use this in the single page application.
 - Select the `SQL` tab, and `Execute` button.
-
 
 Because the continuous SQL query aggregates and maintains state over a period of time, the query will not return results until the window is complete. When it does, the fraudulent activity is shown as the results arrive. It should look something like this:
 
