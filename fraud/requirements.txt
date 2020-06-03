@@ -1,3 +1,4 @@
-confluent_kafka
 gpxpy
 numpy
+requests
+uuid

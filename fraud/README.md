@@ -27,15 +27,14 @@ cd eventador_examples/fraud
 ```
 
 ### Create an environment file
-In the same directory create an .env file with your login credentials and some configuration information. This example uses Confluent Cloud, if you are using a different Kafka service or your own then specify credentials that match your specific configuration. Replace the variables surrounded by `[ ]` with your own values, including the brackets.
+In the same directory create an .env file with your login credentials and some configuration information. This example uses Eventador Kafka.
 ```
-echo "BOOTSTRAP_SERVERS=[yourCCkafkaserver:9092]" > fraud.env
-echo "SASL_USERNAME=[get from confluent cloud]" >> fraud.env
-echo "SASL_PASSWORD=[get from confluent cloud]" >> fraud.env
-echo "KAFKA_TOPIC=paymentauths" >> fraud.env
+echo "TOPIC=authorizations" > fraud.env
+echo "URL=[get base url from eventador console]" >> fraud.env
+echo "API_KEY=[get API key from eventador console]" >>fraud.env
 ```
 
-### Populate Kafka with data
+### Populate Eventador Kafka topic with data
 ```
 docker build . -t fraud
 docker run -d --env-file fraud.env fraud
@@ -46,7 +45,7 @@ Follow these steps from the Eventador Getting Started Guide.
 
 - Create a [new environment](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#1-create-a-cloud-environment). Name it `payment_auths`
 - Create a [datasource](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#2-create-a-data-source). Name it `payment_auths`. Connect it to the Kafka cluster you configured above.
-- Create a new [virtual table source](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#3-create-virtual-table-as-a-source). Select `Detect Schema` to create a schema from a sample of the data.
+- Create a new [virtual table source](https://docs.eventador.io/sqlstreambuilder/ssb_getting_started/#3-create-virtual-table-as-a-source). Select `Detect Schema` to create a schema from a sample of the data. Name it `authorizations`.
 
 ## Create a processing job using Continuous SQL
 
