@@ -43,7 +43,7 @@ def make_fraud(seed, card, user, latlon):
               }
     return payload
 
-def main():
+def fraud_loop(session):
 
     payload = {}
     fraud_trigger = 15
@@ -53,13 +53,14 @@ def main():
 
         if i % fraud_trigger == 0:
             # fraud
+            print("fraud..")
             card = generate_card("visa16")
             user = get_user()
             latlon = get_latlon()
             for r in range(3):
                 payload = make_fraud(r, card, user, latlon)
                 try:
-                    ev.produce(payload)
+                    ev.produce(session, payload)
                 except Exception as ex:
                     print("unable to produce {}".format(ex))
         else:
@@ -74,11 +75,17 @@ def main():
             }
 
         try:
-            ev.produce(payload)
+            ev.produce(session, payload)
+            i += 1
         except Exception as ex:
             print("unable to produce {}".format(ex))
 
-        i += 1
+
 
 if __name__== "__main__":
-  main()
+    try:
+        session  = ev.create_session()
+        response = ev.create_topic(session)
+        fraud_loop(session)
+    except Exception as e:
+        print(e)

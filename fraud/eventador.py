@@ -45,10 +45,8 @@ def createRequestBody(d):
     }
     return body
 
-def produce(data):
+def produce(session, data):
     try:
-        session  = create_session()
-        response = create_topic(session)
         requestBody = createRequestBody(data)
         response    = session.post(SEND_URL, json = requestBody)
         response.raise_for_status()
