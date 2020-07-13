@@ -12,7 +12,6 @@ The demo consists of:
 
 You will need:
 
-- A kafka provider or your own cluster. The example uses [CC](https://confluent.cloud/login).
 - An [Eventador Account](https://eventador.cloud/register).
 - Docker installed and working on your machine. If you are new to Docker or just installing it for the first time, [Docker Desktop](https://www.docker.com/products/docker-desktop) might be the easiest route.
 
