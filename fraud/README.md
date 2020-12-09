@@ -35,9 +35,11 @@ cd eventador_examples/fraud
 In the same terminal window and directory, create an .env file with your login credentials and some configuration information. This example uses Eventador Kafka.
 ```
 echo "TOPIC=authorizations" > fraud.env
-echo "URL=[get base url from eventador console]" >> fraud.env
+echo "URL=[get BASE_URL from eventador console]" >> fraud.env
 echo "API_KEY=[get API key from eventador console]" >>fraud.env
 ```
+
+NOTE: you can find the BASE_URL by selecting the `clusters` in the left hand pane, then `manage API keys` for the cluster you want to use, then copy `BASE URL`.
 
 ### Populate Eventador Kafka topic with data
 ```
@@ -50,7 +52,7 @@ docker run -d --env-file fraud.env fraud
 Go to the [Eventador Console](https://eventador.cloud/streambuilder_list), and follow these steps to run a Continuous SQL job on Eventador.
 
 - Select `SQLStreamBuilder` from the left hand menu.
-- Select `results in browser` as the virtual table sink.
+- Select `None` as the virtual table sink to see results in browser only.
 - Paste the below SQL into the SQL editor:
 
 ```SQL
